@@ -13,17 +13,17 @@ template <class T>
 class Tree
 {
 private:
-	Node<T>* root;//Корень
-	std::function<bool(T, T)> func;//Полиморфная обёртка функции добавления/сортировки
+	Node<T>* root;//ГЉГ®Г°ГҐГ­Гј
+	std::function<bool(T, T)> func;//ГЏГ®Г«ГЁГ¬Г®Г°ГґГ­Г Гї Г®ГЎВёГ°ГІГЄГ  ГґГіГ­ГЄГ¶ГЁГЁ Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї/Г±Г®Г°ГІГЁГ°Г®ГўГЄГЁ
 	
-	void srthelp(Tree<T>& tmpTree, Node<T>* ptr);//Рекурсивная сортировка
+	void srthelp(Tree<T>& tmpTree, Node<T>* ptr);//ГђГҐГЄГіГ°Г±ГЁГўГ­Г Гї Г±Г®Г°ГІГЁГ°Г®ГўГЄГ 
 	template<class T1>
-	bool srchhelp(Tree<T>& tmpTree, const std::function<bool(T1, T)>& func, const T1& key, Node<T>* ptr);//Рекурсивный поиск
-	Node<T>* copyTree(Node<T>* ptr);//Рекурсивное копирование
-	void print(Node<T>* p, int& index);//Рекурсивный вывод
-	void size(int& sz, Node<T>* ptr);//Рекурсивное вычисление размера
+	bool srchhelp(Tree<T>& tmpTree, const std::function<bool(T1, T)>& func, const T1& key, Node<T>* ptr);//ГђГҐГЄГіГ°Г±ГЁГўГ­Г»Г© ГЇГ®ГЁГ±ГЄ
+	Node<T>* copyTree(Node<T>* ptr);//ГђГҐГЄГіГ°Г±ГЁГўГ­Г®ГҐ ГЄГ®ГЇГЁГ°Г®ГўГ Г­ГЁГҐ
+	void print(Node<T>* p, int& index);//ГђГҐГЄГіГ°Г±ГЁГўГ­Г»Г© ГўГ»ГўГ®Г¤
+	void size(int& sz, Node<T>* ptr);//ГђГҐГЄГіГ°Г±ГЁГўГ­Г®ГҐ ГўГ»Г·ГЁГ±Г«ГҐГ­ГЁГҐ Г°Г Г§Г¬ГҐГ°Г 
 	T getElement(int index, Node<T>* ptr, T& element, bool& flag = false, int& counter = 0);
-	void clearTree(Node<T>* ptr);//Рекурсивная очистка дерева
+	void clearTree(Node<T>* ptr);//ГђГҐГЄГіГ°Г±ГЁГўГ­Г Гї Г®Г·ГЁГ±ГІГЄГ  Г¤ГҐГ°ГҐГўГ 
 public:
 	Tree() :root(nullptr), func([](T a, T b) {return a < b; })
 	{
@@ -174,11 +174,20 @@ void Tree<T>::erase(int index)
 		delete root;
 		if (p != nullptr)
 		{
-			s = p;
+			Node<T> *prev_p;
+			prev_p = s = p;
 			while (p->l != nullptr)
+			{
+				prev_p = p;
 				p = p->l;
+			}
+			if(prev_p != p)
+			{
+				prev_p->l = p->r;
+				p->r = s;
+			}
 			p->l = t;
-			root = s;
+			root = p;
 			return;
 		}
 		else
